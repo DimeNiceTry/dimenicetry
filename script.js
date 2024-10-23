@@ -234,7 +234,7 @@ const updateCameraPosition = () => {
   } else if (screenWidth >= 768 && screenWidth < 1200) {
     camera.position.z = 600; // Для среднего экрана
   } else {
-    camera.position.z = 700; // Для большого экрана
+    camera.position.z = 500; // Для большого экрана
   }
 };
 updateCameraPosition();
