@@ -77,8 +77,8 @@ const transformDonut = [
     rotationX: 0.1,
     rotationY: Math.PI * 0.6,
     positionX: -120,
-    lightX: 20,
-    lightY: 20,
+    lightX: 5,
+    lightY: 15,
     lightZ: 5,
   },
   {
