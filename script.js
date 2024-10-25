@@ -1,6 +1,5 @@
 const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
-
 const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1);
 const overlayMaterial = new THREE.ShaderMaterial({
   vertexShader: `
@@ -24,25 +23,31 @@ const overlayMaterial = new THREE.ShaderMaterial({
 
 const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
 scene.add(overlay);
+const loaderElement = document.querySelector('.loader');
+const loaderTextElement = document.querySelector('.loader-text');
 
 const loadingManager = new THREE.LoadingManager(
+  // Когда все загрузилось
   () => {
-    window.setTimeout(() => {
-      gsap.to(overlayMaterial.uniforms.uAlpha, {
-        duration: 3,
-        value: 0,
-        delay: 0
-      });
-    }, 500);
+    setTimeout(() => {
+      gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0 });
+      loaderElement.classList.add('hidden');
+      loaderTextElement.classList.add('hidden');
+    }, 500); // Задержка для плавного скрытия
   },
+  // Прогресс загрузки
   (itemUrl, itemsLoaded, itemsTotal) => {
     const progressRatio = itemsLoaded / itemsTotal;
-    console.log(`Loading progress: ${Math.round(progressRatio * 100)}%`);
+    const progressPercent = Math.round(progressRatio * 100);
+    loaderTextElement.textContent = `Загрузка: ${progressPercent}%`;
+    console.log(`Loading progress: ${progressPercent}%`);
   },
+  // Ошибка загрузки
   () => {
     console.error('Error loading assets');
   }
 );
+
 
 let donut = null;
 const gltfLoader = new THREE.GLTFLoader(loadingManager);
